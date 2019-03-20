@@ -10,18 +10,17 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    var rowPlayer = Player("titForTat", id: 0)
-    var colPlayer = Player("fictitiousPlay", id: 1)
+    var rowPlayer = Random()
+    var colPlayer = Random()
     
-    var gameName = "PrisonersDilemma" {
+	var game: Game = PrisonersDilemma() {
         didSet {
+			resetGame()
             updateUI()
         }
     }
     
     var fast = true
-    
-    lazy var game = Game(set: gameName)
     
     var numberOfRounds = 1000
     var totalRounds = 0
@@ -48,34 +47,29 @@ class ViewController: UIViewController {
         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
         let prisonersDilemma = UIAlertAction(title: "Prisoner's Dilemma", style: .default) { action in
-            self.game.setPrisonersDilemma()
-            update()
-            self.title = "Prisoner's Dilemma"
-            self.gameImg.image = #imageLiteral(resourceName: "game-prisoners-dilemma")
+			self.game = PrisonersDilemma()
         }
         
         let stagHunt = UIAlertAction(title: "Stag Hunt", style: .default) { action in
-            self.game.setStagHunt()
-            update()
-            self.title = "Stag Hunt"
-            self.gameImg.image = #imageLiteral(resourceName: "game-stag-hunt")
+			self.game = StagHunt()
         }
-        
-        let battle = UIAlertAction(title: "Battle of the Sexes", style: .default) { action in
-            self.game.setBattle()
-            update()
-            self.title = "Battle of the Sexes"
-            self.gameImg.image = #imageLiteral(resourceName: "game-battle-sexes")
-        }
-        
-        let chicken = UIAlertAction(title: "Chicken", style: .default) { action in
-            self.game.setChicken()
-            self.resetGame()
-            self.updateUI()
-            self.title = "Chicken"
-            self.gameImg.image = #imageLiteral(resourceName: "game-chicken")
-        }
-        
+
+		//TODO: Implement these games
+//        let battle = UIAlertAction(title: "Battle of the Sexes", style: .default) { action in
+//            self.game.setBattle()
+//            update()
+//            self.title = "Battle of the Sexes"
+//            self.gameImg.image = #imageLiteral(resourceName: "game-battle-sexes")
+//        }
+//
+//        let chicken = UIAlertAction(title: "Chicken", style: .default) { action in
+//            self.game.setChicken()
+//            self.resetGame()
+//            self.updateUI()
+//            self.title = "Chicken"
+//            self.gameImg.image = #imageLiteral(resourceName: "game-chicken")
+//        }
+		
         func update() {
             resetGame()
             updateUI()
@@ -83,10 +77,10 @@ class ViewController: UIViewController {
         
         actionSheet.addAction(prisonersDilemma)
         actionSheet.addAction(stagHunt)
-        actionSheet.addAction(battle)
-        actionSheet.addAction(chicken)
+//        actionSheet.addAction(battle)
+//        actionSheet.addAction(chicken)
         actionSheet.addAction(cancel)
-        
+		
         present(actionSheet, animated: true, completion: nil)
     }
     
@@ -94,15 +88,15 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var gameImg: UIImageView! {
         didSet{
-            switch gameName {
-            case "PrisonersDilemma":
+            switch game {
+            case is PrisonersDilemma:
                 gameImg.image = #imageLiteral(resourceName: "game-prisoners-dilemma")
-            case "StagHunt":
+            case is StagHunt:
                 gameImg.image = #imageLiteral(resourceName: "game-stag-hunt")
-            case "Chicken":
-                gameImg.image = #imageLiteral(resourceName: "game-chicken")
-            case "Battle":
-                gameImg.image = #imageLiteral(resourceName: "game-battle-sexes")
+//            case "Chicken":
+//                gameImg.image = #imageLiteral(resourceName: "game-chicken")
+//            case "Battle":
+//                gameImg.image = #imageLiteral(resourceName: "game-battle-sexes")
             default:
                 break
             }
@@ -175,142 +169,147 @@ class ViewController: UIViewController {
     
     private func setStrategyActionSheet(for player: Player, with btn: UIButton) {
         
-        var actionSheetTitle = "Select Strategy"
+        let actionSheetTitle = "Select Strategy"
 
-        if player.id == 0 {
-            actionSheetTitle = "Select Strategy for Row Player"
-        } else if player.id == 1 {
-            actionSheetTitle = "Select Strategy for Column Player"
-        }
+//        if player.id == 0 {
+//            actionSheetTitle = "Select Strategy for Row Player"
+//        } else if player.id == 1 {
+//            actionSheetTitle = "Select Strategy for Column Player"
+//        }
 
         let actionSheet = UIAlertController(title: actionSheetTitle, message: nil, preferredStyle: .actionSheet)
 
         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
 
-        let TitForTat = UIAlertAction(title: "Tit for Tat", style: .default) { action in
-            self.setPlayerStrategy(for: player, with: "titForTat")
-            btn.setTitle("Tit for Tat", for: .normal)
-        }
-
-        let fictitiousPlay = UIAlertAction(title: "Fictitious Play", style: .default) { action in
-            self.setPlayerStrategy(for: player, with: "fictitiousPlay")
-            btn.setTitle("Fictitious Play", for: .normal)
-        }
-
-        let bully = UIAlertAction(title: "Bully", style: .default) { action in
-            self.setPlayerStrategy(for: player, with: "Bully")
-            btn.setTitle("Bully", for: .normal)
-        }
-
-        let WoLF = UIAlertAction(title: "WoLF", style: .default) { action in
-            self.setPlayerStrategy(for: player, with: "WoLF")
-            btn.setTitle("WoLF", for: .normal)
-        }
-
-        let random = UIAlertAction(title: "Random", style: .default) { action in
-            self.setPlayerStrategy(for: player, with: "Random")
-            btn.setTitle("Random", for: .normal)
-        }
-
-        actionSheet.addAction(TitForTat)
-        actionSheet.addAction(fictitiousPlay)
-        actionSheet.addAction(bully)
-        actionSheet.addAction(WoLF)
-        actionSheet.addAction(random)
+//        let TitForTat = UIAlertAction(title: "Tit for Tat", style: .default) { action in
+//            self.setPlayerStrategy(for: player, with: "titForTat")
+//            btn.setTitle("Tit for Tat", for: .normal)
+//        }
+//
+//        let fictitiousPlay = UIAlertAction(title: "Fictitious Play", style: .default) { action in
+//            self.setPlayerStrategy(for: player, with: "fictitiousPlay")
+//            btn.setTitle("Fictitious Play", for: .normal)
+//        }
+//
+//        let bully = UIAlertAction(title: "Bully", style: .default) { action in
+//            self.setPlayerStrategy(for: player, with: "Bully")
+//            btn.setTitle("Bully", for: .normal)
+//        }
+//
+//        let WoLF = UIAlertAction(title: "WoLF", style: .default) { action in
+//            self.setPlayerStrategy(for: player, with: "WoLF")
+//            btn.setTitle("WoLF", for: .normal)
+//        }
+//
+//        let random = UIAlertAction(title: "Random", style: .default) { action in
+//			player = Random()
+//            self.setPlayerStrategy(for: player, with: "Random")
+//            btn.setTitle("Random", for: .normal)
+//        }
+//
+//        actionSheet.addAction(TitForTat)
+//        actionSheet.addAction(fictitiousPlay)
+//        actionSheet.addAction(bully)
+//        actionSheet.addAction(WoLF)
+//        actionSheet.addAction(random)
         actionSheet.addAction(cancel)
 
         present(actionSheet, animated: true, completion: nil)
     }
     
-    func setPlayerStrategy(for player: Player, with strategy: String) {
-        player.chosenAlgo = strategy
-        self.resetGame()
-        self.updateUI()
-    }
-    
+//    func setPlayerStrategy(for player: Player, with strategy: String) {
+//        player.chosenAlgo = strategy
+//        self.resetGame()
+//        self.updateUI()
+//    }
+	
     //Run Game Logic ============================================================
     
     public func runGame() {
+		game.start(numRounds: numberOfRounds, player1: rowPlayer, player2: colPlayer)
         
-        for _ in stride(from: 0, to: numberOfRounds, by: 1) {
-            
-            let playerOneAction = rowPlayer.performAction(given: game.matrixPayoffs)
-            let playerTwoAction = colPlayer.performAction(given: game.matrixPayoffs)
-
-            givePlayersRememberance(with: playerOneAction, and: playerTwoAction)
-            
-            let scoresInRound = calculateTotalScores(with: playerOneAction, and: playerTwoAction)
-        
-            updateScores(with: scoresInRound)
-            
-//            if fast == false {
-//                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-//                    self.updateUI()
-//                }
-//            } else {
-//                updateUI()
-//            }
-            
-            updateUI()
-        }
+//        for _ in stride(from: 0, to: numberOfRounds, by: 1) {
+//
+//            let playerOneAction = rowPlayer.performAction(given: game.matrixPayoffs)
+//            let playerTwoAction = colPlayer.performAction(given: game.matrixPayoffs)
+//
+//            givePlayersRememberance(with: playerOneAction, and: playerTwoAction)
+//
+//            let scoresInRound = calculateTotalScores(with: playerOneAction, and: playerTwoAction)
+//
+//            updateScores(with: scoresInRound)
+//
+////            if fast == false {
+////                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+////                    self.updateUI()
+////                }
+////            } else {
+////                updateUI()
+////            }
+//
+//            updateUI()
+//        }
     }
     
-    private func givePlayersRememberance(with rowPlayerAction: Action, and colPlayerAction: Action ) {
-        
-        rowPlayer.myActionMemory.append(rowPlayerAction)
-        rowPlayer.opponentActionMemory.append(colPlayerAction)
-        
-        colPlayer.myActionMemory.append(colPlayerAction)
-        colPlayer.opponentActionMemory.append(rowPlayerAction)
-        
-        if rowPlayer.chosenAlgo == "WoLF" {
-            rowPlayer.WoLFClass.myActionMemory = rowPlayer.myActionMemory
-            rowPlayer.WoLFClass.opponentActionMemory = rowPlayer.opponentActionMemory
-            rowPlayer.WoLFClass.observe()
-        }
-        
-        if colPlayer.chosenAlgo == "WoLF" {
-            colPlayer.WoLFClass.myActionMemory = colPlayer.myActionMemory
-            colPlayer.WoLFClass.opponentActionMemory = colPlayer.opponentActionMemory
-            colPlayer.WoLFClass.observe()
-        }
-        
-        print("rowPlayerAction: ", rowPlayerAction.a)
-        print("colPlayerAction: ", colPlayerAction.a, "\n")
-
-    }
-    
-    private func updateScores(with scores: (Int, Int)) {
-        
-        rowPlayer.totalScore += scores.0
-        rowPlayer.averageScore = Double(rowPlayer.totalScore) / Double(totalRounds)
-        
-        colPlayer.totalScore += scores.1
-        colPlayer.averageScore = Double(colPlayer.totalScore) / Double(totalRounds)
-    }
-    
-    func calculateTotalScores(with playerAction1: Action, and playerAction2: Action) -> (Int, Int) {
-    
-        let playerOneScore = game.matrixPayoffs[playerAction1.a][playerAction2.a].0
-        let playerTwoScore = game.matrixPayoffs[playerAction1.a][playerAction2.a].1
-        
-        return (playerOneScore, playerTwoScore)
-    }
-    
+//    private func givePlayersRememberance(with rowPlayerAction: Action, and colPlayerAction: Action ) {
+//
+//        rowPlayer.myActionMemory.append(rowPlayerAction)
+//        rowPlayer.opponentActionMemory.append(colPlayerAction)
+//
+//        colPlayer.myActionMemory.append(colPlayerAction)
+//        colPlayer.opponentActionMemory.append(rowPlayerAction)
+//
+//        if rowPlayer.chosenAlgo == "WoLF" {
+//            rowPlayer.WoLFClass.myActionMemory = rowPlayer.myActionMemory
+//            rowPlayer.WoLFClass.opponentActionMemory = rowPlayer.opponentActionMemory
+//            rowPlayer.WoLFClass.observe()
+//        }
+//
+//        if colPlayer.chosenAlgo == "WoLF" {
+//            colPlayer.WoLFClass.myActionMemory = colPlayer.myActionMemory
+//            colPlayer.WoLFClass.opponentActionMemory = colPlayer.opponentActionMemory
+//            colPlayer.WoLFClass.observe()
+//        }
+//
+//        print("rowPlayerAction: ", rowPlayerAction.a)
+//        print("colPlayerAction: ", colPlayerAction.a, "\n")
+//
+//    }
+	
+//    private func updateScores(with scores: (Int, Int)) {
+//
+//        rowPlayer.totalScore += scores.0
+//        rowPlayer.averageScore = Double(rowPlayer.totalScore) / Double(totalRounds)
+//
+//        colPlayer.totalScore += scores.1
+//        colPlayer.averageScore = Double(colPlayer.totalScore) / Double(totalRounds)
+//    }
+	
+//    func calculateTotalScores(with playerAction1: Action, and playerAction2: Action) -> (Int, Int) {
+//
+//        let playerOneScore = game.matrixPayoffs[playerAction1.a][playerAction2.a].0
+//        let playerTwoScore = game.matrixPayoffs[playerAction1.a][playerAction2.a].1
+//
+//        return (playerOneScore, playerTwoScore)
+//    }
+	
     //Update UI ============================================================
     
     func updateUI() {
-        rowPlayerTotalScore.text = "TOTAL: \(rowPlayer.totalScore)"
-        colPlayerTotalScore.text = "TOTAL: \(colPlayer.totalScore)"
+		title = game.name
+		gameImg.image = game.image
+		
+        rowPlayerTotalScore.text = "TOTAL: \(rowPlayer.score)"
+        colPlayerTotalScore.text = "TOTAL: \(colPlayer.score)"
     
-        rowPlayerAvgScore.text = String(format: "%.3f", rowPlayer.averageScore)
-        colPlayerAvgScore.text = String(format: "%.3f", colPlayer.averageScore)
+//        rowPlayerAvgScore.text = String(format: "%.3f", rowPlayer.averageScore)
+//        colPlayerAvgScore.text = String(format: "%.3f", colPlayer.averageScore)
     }
     
     func resetGame() {
-        rowPlayer.resetPlayer()
-        colPlayer.resetPlayer()
-        
+//        rowPlayer.resetPlayer()
+//        colPlayer.resetPlayer()
+		
         totalRounds = 0
     }
     
