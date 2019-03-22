@@ -42,7 +42,7 @@
 		5B76FEF7221E831C00EE89D6 = {
 			isa = PBXGroup;
 			children = (
-				5B76FF02221E831C00EE89D6 /* CS 601R */,
+				5B76FF02221E831C00EE89D6 /* AIPlayground */,
 				5B76FF01221E831C00EE89D6 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -55,7 +55,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		5B76FF02221E831C00EE89D6 /* CS 601R */ = {
+		5B76FF02221E831C00EE89D6 /* AIPlayground */ = {
 			isa = PBXGroup;
 			children = (
 				5BF66F72221F1E2600648203 /* Supporting Files */,
@@ -65,7 +65,7 @@
 				5B76FF07221E831C00EE89D6 /* Main.storyboard */,
 				5B76FF0F221E831E00EE89D6 /* Info.plist */,
 			);
-			path = "CS 601R";
+			path = AIPlayground;
 			sourceTree = "<group>";
 		};
 		5BF66F72221F1E2600648203 /* Supporting Files */ = {
@@ -300,12 +300,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = G9JN5J3VZ9;
-				INFOPLIST_FILE = "CS 601R/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/AIPlayground/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "gavitron.CS-601R";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.romrell4.ai-playground";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -318,12 +318,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = G9JN5J3VZ9;
-				INFOPLIST_FILE = "CS 601R/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/AIPlayground/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "gavitron.CS-601R";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.romrell4.ai-playground";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
