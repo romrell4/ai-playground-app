@@ -18,7 +18,7 @@
 
 /* Begin PBXFileReference section */
 		5B6DAC792224F74A00C382F1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		5B76FF00221E831C00EE89D6 /* CS 601R.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CS 601R.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5B76FF00221E831C00EE89D6 /* AIPlayground.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AIPlayground.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B76FF03221E831C00EE89D6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5B76FF05221E831C00EE89D6 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		5B76FF08221E831C00EE89D6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -50,7 +50,7 @@
 		5B76FF01221E831C00EE89D6 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				5B76FF00221E831C00EE89D6 /* CS 601R.app */,
+				5B76FF00221E831C00EE89D6 /* AIPlayground.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -81,9 +81,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		5B76FEFF221E831C00EE89D6 /* CS 601R */ = {
+		5B76FEFF221E831C00EE89D6 /* AIPlayground */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 5B76FF12221E831E00EE89D6 /* Build configuration list for PBXNativeTarget "CS 601R" */;
+			buildConfigurationList = 5B76FF12221E831E00EE89D6 /* Build configuration list for PBXNativeTarget "AIPlayground" */;
 			buildPhases = (
 				5B76FEFC221E831C00EE89D6 /* Sources */,
 				5B76FEFD221E831C00EE89D6 /* Frameworks */,
@@ -93,9 +93,9 @@
 			);
 			dependencies = (
 			);
-			name = "CS 601R";
-			productName = "CS 601R";
-			productReference = 5B76FF00221E831C00EE89D6 /* CS 601R.app */;
+			name = "AIPlayground";
+			productName = "AIPlayground";
+			productReference = 5B76FF00221E831C00EE89D6 /* AIPlayground.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -126,7 +126,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				5B76FEFF221E831C00EE89D6 /* CS 601R */,
+				5B76FEFF221E831C00EE89D6 /* AIPlayground */,
 			);
 		};
 /* End PBXProject section */
@@ -342,7 +342,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		5B76FF12221E831E00EE89D6 /* Build configuration list for PBXNativeTarget "CS 601R" */ = {
+		5B76FF12221E831E00EE89D6 /* Build configuration list for PBXNativeTarget "AIPlayground" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5B76FF13221E831E00EE89D6 /* Debug */,
