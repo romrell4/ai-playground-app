@@ -20,25 +20,20 @@ class ViewController: UIViewController, UITextFieldDelegate {
 			colStrategyBtn.setTitle(colPlayer.title, for: .normal)
 		}
 	}
-    
 	private var game: Game = PrisonersDilemma() {
         didSet {
-			rowPlayer.reset()
-			colPlayer.reset()
-            updateUI()
+			resetGame()
         }
     }
-    
-    var fast = true
-    
-    var numberOfRounds = 1000
-    var totalRounds = 0
+    private var fast = true
+    private var numberOfRounds = 1000
     
     override func viewDidLoad() {
         super.viewDidLoad()
 		
 		rowPlayer = Random()
 		colPlayer = Random()
+		updateUI()
     }
 	
 	//TextFieldDelegate ===================================
@@ -50,66 +45,27 @@ class ViewController: UIViewController, UITextFieldDelegate {
 	
     //Nav bar ============================================================
  
-    @IBAction func resetBtn(_ sender: Any) {
+	@IBAction func resetGame(_ sender: Any? = nil) {
+		rowPlayer.reset()
+		colPlayer.reset()
         updateUI()
     }
     
     @IBAction func changeGameBtn(_ sender: Any) {
         let actionSheet = UIAlertController(title: "Select Matrix Game", message: nil, preferredStyle: .actionSheet)
-        
-        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        
-        let prisonersDilemma = UIAlertAction(title: "Prisoner's Dilemma", style: .default) { action in
-			self.game = PrisonersDilemma()
-        }
-        
-        let stagHunt = UIAlertAction(title: "Stag Hunt", style: .default) { action in
-			self.game = StagHunt()
-        }
-
-		//TODO: Implement these games
-//        let battle = UIAlertAction(title: "Battle of the Sexes", style: .default) { action in
-//            self.game.setBattle()
-//            update()
-//            self.title = "Battle of the Sexes"
-//            self.gameImg.image = #imageLiteral(resourceName: "game-battle-sexes")
-//        }
-//
-//        let chicken = UIAlertAction(title: "Chicken", style: .default) { action in
-//            self.game.setChicken()
-//            self.resetGame()
-//            self.updateUI()
-//            self.title = "Chicken"
-//            self.gameImg.image = #imageLiteral(resourceName: "game-chicken")
-//        }
-        
-        actionSheet.addAction(prisonersDilemma)
-        actionSheet.addAction(stagHunt)
-//        actionSheet.addAction(battle)
-//        actionSheet.addAction(chicken)
-        actionSheet.addAction(cancel)
+		Game.choices.forEach { game in
+			actionSheet.addAction(UIAlertAction(title: game.name, style: .default) { (_) in
+				self.game = game
+			})
+		}
+        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel))
 		
-        present(actionSheet, animated: true, completion: nil)
+        present(actionSheet, animated: true)
     }
     
     //Image ============================================================
     
-    @IBOutlet weak var gameImg: UIImageView! {
-        didSet{
-            switch game {
-            case is PrisonersDilemma:
-                gameImg.image = #imageLiteral(resourceName: "game-prisoners-dilemma")
-            case is StagHunt:
-                gameImg.image = #imageLiteral(resourceName: "game-stag-hunt")
-//            case "Chicken":
-//                gameImg.image = #imageLiteral(resourceName: "game-chicken")
-//            case "Battle":
-//                gameImg.image = #imageLiteral(resourceName: "game-battle-sexes")
-            default:
-                break
-            }
-        }
-    }
+    @IBOutlet weak var gameImg: UIImageView!
     
     //Bottom Bib ============================================================
     
@@ -142,9 +98,10 @@ class ViewController: UIViewController, UITextFieldDelegate {
             numberOfRounds = num
         }
         
-        totalRounds += numberOfRounds
-        
-        runGame()
+		game.play(numRounds: numberOfRounds, player1: rowPlayer, player2: colPlayer) {
+			updateUI()
+		}
+		updateUI()
     }
     
     //Player Info ============================================================
@@ -154,8 +111,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var rowPlayerTotalScore: UILabel!
     @IBOutlet weak var colPlayerTotalScore: UILabel!
-    
-    @IBOutlet weak var rowPlayerLabel: UILabel!
     
     //Strategy btn outlets
 	@IBOutlet weak var rowStrategyBtn: UIButton!
@@ -189,40 +144,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
 		
 		present(actionSheet, animated: true)
 	}
-	
-    //Run Game Logic ============================================================
-    
-    public func runGame() {
-		game.play(numRounds: numberOfRounds, player1: rowPlayer, player2: colPlayer) {
-			updateUI()
-		}
-		updateUI()
-    }
-    
-//    private func givePlayersRememberance(with rowPlayerAction: Action, and colPlayerAction: Action ) {
-//
-//        rowPlayer.myActionMemory.append(rowPlayerAction)
-//        rowPlayer.opponentActionMemory.append(colPlayerAction)
-//
-//        colPlayer.myActionMemory.append(colPlayerAction)
-//        colPlayer.opponentActionMemory.append(rowPlayerAction)
-//
-//        if rowPlayer.chosenAlgo == "WoLF" {
-//            rowPlayer.WoLFClass.myActionMemory = rowPlayer.myActionMemory
-//            rowPlayer.WoLFClass.opponentActionMemory = rowPlayer.opponentActionMemory
-//            rowPlayer.WoLFClass.observe()
-//        }
-//
-//        if colPlayer.chosenAlgo == "WoLF" {
-//            colPlayer.WoLFClass.myActionMemory = colPlayer.myActionMemory
-//            colPlayer.WoLFClass.opponentActionMemory = colPlayer.opponentActionMemory
-//            colPlayer.WoLFClass.observe()
-//        }
-//
-//        print("rowPlayerAction: ", rowPlayerAction.a)
-//        print("colPlayerAction: ", colPlayerAction.a, "\n")
-//
-//    }
 	
     //Update UI ============================================================
 	

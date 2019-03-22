@@ -278,7 +278,7 @@
                     <navigationItem key="navigationItem" title="Prisoner's Dilemma" id="rSO-4i-5jw">
                         <barButtonItem key="leftBarButtonItem" title="Reset" id="85J-M4-Ih4">
                             <connections>
-                                <action selector="resetBtn:" destination="BYZ-38-t0r" id="PqX-6H-c7r"/>
+                                <action selector="resetGame:" destination="BYZ-38-t0r" id="PqX-6H-c7r"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Change" id="rSz-r1-Is0">
@@ -296,7 +296,6 @@
                         <outlet property="gameImg" destination="FOJ-6S-ftM" id="XwU-JD-kqj"/>
                         <outlet property="numRoundsTextField" destination="8Dr-9I-xr0" id="ZoJ-3V-v6M"/>
                         <outlet property="rowPlayerAvgScore" destination="WJg-Gz-djD" id="fC1-ys-1Yn"/>
-                        <outlet property="rowPlayerLabel" destination="l8o-ym-wqw" id="1m5-ZO-FSM"/>
                         <outlet property="rowPlayerTotalScore" destination="msp-9c-a1Y" id="1s8-ly-1t7"/>
                         <outlet property="rowStrategyBtn" destination="lcb-AS-5fe" id="zww-jT-8hO"/>
                     </connections>

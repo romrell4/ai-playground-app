@@ -9,7 +9,7 @@
 import UIKit
 
 class Game {
-	static var choices: [Game] { return [PrisonersDilemma(), StagHunt()] }
+	static var choices: [Game] { return [PrisonersDilemma(), StagHunt(), Chicken(), BattleOfTheSexes()] }
 	
 	var name: String
 	var states: [String]
@@ -58,6 +58,24 @@ class StagHunt: Game {
 		super.init(name: "Stag Hunt", states: ["Stag", "Hare"], image: #imageLiteral(resourceName: "game-stag-hunt"), rewards: [
 			[(4, 4), (1, 3)],
 			[(3, 1), (2, 2)]
+		])
+	}
+}
+
+class Chicken: Game {
+	init() {
+		super.init(name: "Chicken", states: ["Swerve", "Straight"], image: #imageLiteral(resourceName: "game-chicken"), rewards: [
+			[(3, 3), (2, 4)],
+			[(4, 2), (1, 1)]
+		])
+	}
+}
+
+class BattleOfTheSexes: Game {
+	init() {
+		super.init(name: "Battle of the Sexes", states: ["Opera", "Football"], image: #imageLiteral(resourceName: "game-battle-sexes"), rewards: [
+			[(3, 2), (0, 0)],
+			[(0, 0), (2, 3)]
 		])
 	}
 }
