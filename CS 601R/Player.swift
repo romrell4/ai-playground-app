@@ -8,66 +8,9 @@
 
 import Foundation
 
-//class Player {
-//    var id: Int
-//
-//    let gameMatrix = Game(set: "")
-//
-//    var chosenAlgo = ""
-//
-//    var learningAlgos: LearningAlgorithms = LearningAlgorithms()
-//
-//    var totalScore = 0
-//    var averageScore: Double = 0
-//
-//    var myActionMemory: [Action] = []
-//    var opponentActionMemory: [Action] = []
-//
-//    var WoLFClass: WOLF_PHC
-//
-//    var matrixPayoffs = [
-//        [(0,0),(0,0)],
-//        [(0,0),(0,0)]
-//    ]
-//
-//    init(_ chosenAlgo: String, id identifier: Int) {
-//        self.chosenAlgo = chosenAlgo
-//        self.id = identifier
-//        WoLFClass = WOLF_PHC(matrix: gameMatrix.matrixPayoffs, playerID: id)
-//    }
-//
-//    func performAction(given matrix: Array<Array<(Int, Int)>>) -> Action {
-//
-//        if chosenAlgo == "WoLF" {
-//            return performActionWithWoLF()
-//        }
-//
-//        var action = Action()
-//
-//        learningAlgos.playerID = id
-//
-//        action = learningAlgos.chooseAlgorithm(given: chosenAlgo, and: opponentActionMemory, and: matrix)
-//
-//        return action
-//    }
-//
-//    func performActionWithWoLF() -> Action {
-//        return WoLFClass.play()
-//    }
-//
-//    func resetPlayer() {
-//        averageScore = 0
-//        totalScore = 0
-//
-//        myActionMemory = []
-//        opponentActionMemory  = []
-//        
-//        WoLFClass.reset()
-//        WoLFClass.matrix = gameMatrix.matrixPayoffs
-//    }
-//}
-
 class Player {
+	static var choices: [Player] { return [Human(), Random(), TitForTat()] }
+	
 	let title: String
 	var score = 0
 	var playHistory = [Int]()
@@ -76,6 +19,11 @@ class Player {
 	init(title: String, playBlock: @escaping ((Player, Game) -> Int)) {
 		self.title = title
 		self.play = playBlock
+	}
+	
+	func reset() {
+		score = 0
+		playHistory = []
 	}
 }
 
@@ -91,7 +39,15 @@ class Human: Player {
 class Random: Player {
 	init() {
 		super.init(title: "Random") { (opponent, game) -> Int in
-			return Int.random(in: 0...game.states.count - 1)
+			return Int.random(in: 0..<game.states.count)
+		}
+	}
+}
+
+class TitForTat: Player {
+	init() {
+		super.init(title: "Tit-for-Tat") { (opponent, game) -> Int in
+			return opponent.playHistory.last ?? Int.random(in: 0..<game.states.count)
 		}
 	}
 }

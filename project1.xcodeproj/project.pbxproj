@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0D44D9752227387E00B95370 /* WoLF.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D44D9742227387E00B95370 /* WoLF.swift */; };
 		5B6DAC7A2224F74A00C382F1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5B6DAC792224F74A00C382F1 /* Assets.xcassets */; };
 		5B76FF04221E831C00EE89D6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B76FF03221E831C00EE89D6 /* AppDelegate.swift */; };
 		5B76FF06221E831C00EE89D6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B76FF05221E831C00EE89D6 /* ViewController.swift */; };
@@ -15,12 +14,9 @@
 		5B76FF0E221E831E00EE89D6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B76FF0C221E831E00EE89D6 /* LaunchScreen.storyboard */; };
 		5B86D6E72224CA5800A8CCC7 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B86D6E62224CA5800A8CCC7 /* Player.swift */; };
 		5BCBD3BF2224A0AD0002544A /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCBD3BE2224A0AD0002544A /* Game.swift */; };
-		5BF66F7A221F1F8D00648203 /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF66F79221F1F8D00648203 /* Action.swift */; };
-		5BF66F82221F479A00648203 /* LearningAlgorithms.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF66F81221F479A00648203 /* LearningAlgorithms.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0D44D9742227387E00B95370 /* WoLF.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WoLF.swift; sourceTree = "<group>"; };
 		5B6DAC792224F74A00C382F1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5B76FF00221E831C00EE89D6 /* CS 601R.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CS 601R.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B76FF03221E831C00EE89D6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -30,8 +26,6 @@
 		5B76FF0F221E831E00EE89D6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5B86D6E62224CA5800A8CCC7 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		5BCBD3BE2224A0AD0002544A /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
-		5BF66F79221F1F8D00648203 /* Action.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Action.swift; sourceTree = "<group>"; };
-		5BF66F81221F479A00648203 /* LearningAlgorithms.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningAlgorithms.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,12 +60,9 @@
 			children = (
 				5BF66F72221F1E2600648203 /* Supporting Files */,
 				5B76FF05221E831C00EE89D6 /* ViewController.swift */,
-				5BF66F81221F479A00648203 /* LearningAlgorithms.swift */,
-				5BF66F79221F1F8D00648203 /* Action.swift */,
 				5BCBD3BE2224A0AD0002544A /* Game.swift */,
 				5B86D6E62224CA5800A8CCC7 /* Player.swift */,
 				5B76FF07221E831C00EE89D6 /* Main.storyboard */,
-				0D44D9742227387E00B95370 /* WoLF.swift */,
 				5B76FF0F221E831E00EE89D6 /* Info.plist */,
 			);
 			path = "CS 601R";
@@ -122,7 +113,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 5B76FEFB221E831C00EE89D6 /* Build configuration list for PBXProject "Project1" */;
+			buildConfigurationList = 5B76FEFB221E831C00EE89D6 /* Build configuration list for PBXProject "project1" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -158,13 +149,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5BF66F82221F479A00648203 /* LearningAlgorithms.swift in Sources */,
 				5B76FF06221E831C00EE89D6 /* ViewController.swift in Sources */,
-				0D44D9752227387E00B95370 /* WoLF.swift in Sources */,
 				5B76FF04221E831C00EE89D6 /* AppDelegate.swift in Sources */,
 				5BCBD3BF2224A0AD0002544A /* Game.swift in Sources */,
 				5B86D6E72224CA5800A8CCC7 /* Player.swift in Sources */,
-				5BF66F7A221F1F8D00648203 /* Action.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -345,7 +333,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		5B76FEFB221E831C00EE89D6 /* Build configuration list for PBXProject "Project1" */ = {
+		5B76FEFB221E831C00EE89D6 /* Build configuration list for PBXProject "project1" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5B76FF10221E831E00EE89D6 /* Debug */,

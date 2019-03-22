@@ -8,14 +8,23 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITextFieldDelegate {
 
-    var rowPlayer = Random()
-    var colPlayer = Random()
+	private var rowPlayer: Player! {
+		didSet {
+			rowStrategyBtn.setTitle(rowPlayer.title, for: .normal)
+		}
+	}
+	private var colPlayer: Player! {
+		didSet {
+			colStrategyBtn.setTitle(colPlayer.title, for: .normal)
+		}
+	}
     
-	var game: Game = PrisonersDilemma() {
+	private var game: Game = PrisonersDilemma() {
         didSet {
-			resetGame()
+			rowPlayer.reset()
+			colPlayer.reset()
             updateUI()
         }
     }
@@ -27,17 +36,21 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureTextField()
+		
+		rowPlayer = Random()
+		colPlayer = Random()
     }
-    
-    //Game Circles ============================================================
-    
-    
-    
+	
+	//TextFieldDelegate ===================================
+	
+	func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+		textField.resignFirstResponder()
+		return true
+	}
+	
     //Nav bar ============================================================
  
     @IBAction func resetBtn(_ sender: Any) {
-        resetGame()
         updateUI()
     }
     
@@ -69,11 +82,6 @@ class ViewController: UIViewController {
 //            self.title = "Chicken"
 //            self.gameImg.image = #imageLiteral(resourceName: "game-chicken")
 //        }
-		
-        func update() {
-            resetGame()
-            updateUI()
-        }
         
         actionSheet.addAction(prisonersDilemma)
         actionSheet.addAction(stagHunt)
@@ -130,17 +138,13 @@ class ViewController: UIViewController {
     @IBAction func btnStart(_ sender: Any) {
         view.endEditing(true)
         
-        if let num = Int(numRoundsTextField.text!) {
+        if let text = numRoundsTextField.text, let num = Int(text) {
             numberOfRounds = num
         }
         
         totalRounds += numberOfRounds
         
         runGame()
-    }
-    
-    func configureTextField() {
-        numRoundsTextField.delegate = self as UITextFieldDelegate
     }
     
     //Player Info ============================================================
@@ -154,101 +158,45 @@ class ViewController: UIViewController {
     @IBOutlet weak var rowPlayerLabel: UILabel!
     
     //Strategy btn outlets
+	@IBOutlet weak var rowStrategyBtn: UIButton!
     @IBOutlet weak var colStrategyBtn: UIButton!
-
-    @IBOutlet weak var rowStrategyBtn: UIButton!
     
     //Strategy btn actions
-    @IBAction func rowPlayerStrategyBtn(_ sender: Any) {
-        setStrategyActionSheet(for: rowPlayer, with: rowStrategyBtn)
+    @IBAction func rowPlayerStrategyBtn(_ sender: UIButton) {
+		selectStrategy { player in
+			self.rowPlayer = player
+			sender.setTitle(player.title, for: .normal)
+		}
     }
     
-    @IBAction func colPlayerStrategyBtn(_ sender: Any) {
-        setStrategyActionSheet(for: colPlayer, with: colStrategyBtn)
+    @IBAction func colPlayerStrategyBtn(_ sender: UIButton) {
+		selectStrategy { player in
+			self.colPlayer = player
+			sender.setTitle(player.title, for: .normal)
+		}
     }
-    
-    private func setStrategyActionSheet(for player: Player, with btn: UIButton) {
-        
-        let actionSheetTitle = "Select Strategy"
-
-//        if player.id == 0 {
-//            actionSheetTitle = "Select Strategy for Row Player"
-//        } else if player.id == 1 {
-//            actionSheetTitle = "Select Strategy for Column Player"
-//        }
-
-        let actionSheet = UIAlertController(title: actionSheetTitle, message: nil, preferredStyle: .actionSheet)
-
-        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-
-//        let TitForTat = UIAlertAction(title: "Tit for Tat", style: .default) { action in
-//            self.setPlayerStrategy(for: player, with: "titForTat")
-//            btn.setTitle("Tit for Tat", for: .normal)
-//        }
-//
-//        let fictitiousPlay = UIAlertAction(title: "Fictitious Play", style: .default) { action in
-//            self.setPlayerStrategy(for: player, with: "fictitiousPlay")
-//            btn.setTitle("Fictitious Play", for: .normal)
-//        }
-//
-//        let bully = UIAlertAction(title: "Bully", style: .default) { action in
-//            self.setPlayerStrategy(for: player, with: "Bully")
-//            btn.setTitle("Bully", for: .normal)
-//        }
-//
-//        let WoLF = UIAlertAction(title: "WoLF", style: .default) { action in
-//            self.setPlayerStrategy(for: player, with: "WoLF")
-//            btn.setTitle("WoLF", for: .normal)
-//        }
-//
-//        let random = UIAlertAction(title: "Random", style: .default) { action in
-//			player = Random()
-//            self.setPlayerStrategy(for: player, with: "Random")
-//            btn.setTitle("Random", for: .normal)
-//        }
-//
-//        actionSheet.addAction(TitForTat)
-//        actionSheet.addAction(fictitiousPlay)
-//        actionSheet.addAction(bully)
-//        actionSheet.addAction(WoLF)
-//        actionSheet.addAction(random)
-        actionSheet.addAction(cancel)
-
-        present(actionSheet, animated: true, completion: nil)
-    }
-    
-//    func setPlayerStrategy(for player: Player, with strategy: String) {
-//        player.chosenAlgo = strategy
-//        self.resetGame()
-//        self.updateUI()
-//    }
+	
+	private func selectStrategy(callback: @escaping (Player) -> Void) {
+		let actionSheet = UIAlertController(title: "Select Strategy for Row Player", message: nil, preferredStyle: .actionSheet)
+		
+		Player.choices.forEach { player in
+			actionSheet.addAction(UIAlertAction(title: player.title, style: .default, handler: { (_) in
+				callback(player)
+			}))
+		}
+		
+		actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+		
+		present(actionSheet, animated: true)
+	}
 	
     //Run Game Logic ============================================================
     
     public func runGame() {
-		game.start(numRounds: numberOfRounds, player1: rowPlayer, player2: colPlayer)
-        
-//        for _ in stride(from: 0, to: numberOfRounds, by: 1) {
-//
-//            let playerOneAction = rowPlayer.performAction(given: game.matrixPayoffs)
-//            let playerTwoAction = colPlayer.performAction(given: game.matrixPayoffs)
-//
-//            givePlayersRememberance(with: playerOneAction, and: playerTwoAction)
-//
-//            let scoresInRound = calculateTotalScores(with: playerOneAction, and: playerTwoAction)
-//
-//            updateScores(with: scoresInRound)
-//
-////            if fast == false {
-////                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-////                    self.updateUI()
-////                }
-////            } else {
-////                updateUI()
-////            }
-//
-//            updateUI()
-//        }
+		game.play(numRounds: numberOfRounds, player1: rowPlayer, player2: colPlayer) {
+			updateUI()
+		}
+		updateUI()
     }
     
 //    private func givePlayersRememberance(with rowPlayerAction: Action, and colPlayerAction: Action ) {
@@ -276,53 +224,16 @@ class ViewController: UIViewController {
 //
 //    }
 	
-//    private func updateScores(with scores: (Int, Int)) {
-//
-//        rowPlayer.totalScore += scores.0
-//        rowPlayer.averageScore = Double(rowPlayer.totalScore) / Double(totalRounds)
-//
-//        colPlayer.totalScore += scores.1
-//        colPlayer.averageScore = Double(colPlayer.totalScore) / Double(totalRounds)
-//    }
-	
-//    func calculateTotalScores(with playerAction1: Action, and playerAction2: Action) -> (Int, Int) {
-//
-//        let playerOneScore = game.matrixPayoffs[playerAction1.a][playerAction2.a].0
-//        let playerTwoScore = game.matrixPayoffs[playerAction1.a][playerAction2.a].1
-//
-//        return (playerOneScore, playerTwoScore)
-//    }
-	
     //Update UI ============================================================
-    
-    func updateUI() {
+	
+    private func updateUI() {
 		title = game.name
 		gameImg.image = game.image
 		
         rowPlayerTotalScore.text = "TOTAL: \(rowPlayer.score)"
         colPlayerTotalScore.text = "TOTAL: \(colPlayer.score)"
-    
-//        rowPlayerAvgScore.text = String(format: "%.3f", rowPlayer.averageScore)
-//        colPlayerAvgScore.text = String(format: "%.3f", colPlayer.averageScore)
-    }
-    
-    func resetGame() {
-//        rowPlayer.resetPlayer()
-//        colPlayer.resetPlayer()
 		
-        totalRounds = 0
-    }
-    
-    //Touching Helpers ============================================================
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        numRoundsTextField.resignFirstResponder()
-    }
-}
-
-extension ViewController: UITextFieldDelegate {
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
+		rowPlayerAvgScore.text = String(format: "%.3f", Double(rowPlayer.score) / Double(numberOfRounds))
+        colPlayerAvgScore.text = String(format: "%.3f", Double(colPlayer.score) / Double(numberOfRounds))
     }
 }
