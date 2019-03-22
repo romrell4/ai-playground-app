@@ -113,7 +113,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 5B76FEFB221E831C00EE89D6 /* Build configuration list for PBXProject "project1" */;
+			buildConfigurationList = 5B76FEFB221E831C00EE89D6 /* Build configuration list for PBXProject "AIPlayground" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -299,7 +299,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 5654DMK7XW;
+				DEVELOPMENT_TEAM = G9JN5J3VZ9;
 				INFOPLIST_FILE = "CS 601R/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -317,7 +317,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 5654DMK7XW;
+				DEVELOPMENT_TEAM = G9JN5J3VZ9;
 				INFOPLIST_FILE = "CS 601R/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -333,7 +333,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		5B76FEFB221E831C00EE89D6 /* Build configuration list for PBXProject "project1" */ = {
+		5B76FEFB221E831C00EE89D6 /* Build configuration list for PBXProject "AIPlayground" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5B76FF10221E831E00EE89D6 /* Debug */,
