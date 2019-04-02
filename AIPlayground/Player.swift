@@ -9,7 +9,7 @@
 import Foundation
 
 class Player {
-	static var choices: [Player] { return [Human(), Random(), TitForTat()] }
+	static var choices: [Player] { return [Human(), Random(), TitForTat(), FictitiousPlay()] }
 	
 	let title: String
 	var score = 0
@@ -48,6 +48,16 @@ class TitForTat: Player {
 	init() {
 		super.init(title: "Tit-for-Tat") { (opponent, game) -> Int in
 			return opponent.playHistory.last ?? Int.random(in: 0..<game.states.count)
+		}
+	}
+}
+
+class FictitiousPlay: Player {
+	init() {
+		super.init(title: "Fictitious Play") { (opponent, game) -> Int in
+			let myRewards = game.rewards.map { $0.map { $0.0 } }
+			let distribution = opponent.playHistory.distribution(size: game.states.count)
+			return myRewards.dot(vector: distribution).argmax()
 		}
 	}
 }

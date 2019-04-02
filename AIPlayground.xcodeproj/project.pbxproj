@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0C1349A02246F50A00A51B7D /* MatrixExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C13499F2246F50A00A51B7D /* MatrixExtensions.swift */; };
 		5B6DAC7A2224F74A00C382F1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5B6DAC792224F74A00C382F1 /* Assets.xcassets */; };
 		5B76FF04221E831C00EE89D6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B76FF03221E831C00EE89D6 /* AppDelegate.swift */; };
 		5B76FF06221E831C00EE89D6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B76FF05221E831C00EE89D6 /* ViewController.swift */; };
@@ -17,8 +18,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0C13499F2246F50A00A51B7D /* MatrixExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatrixExtensions.swift; sourceTree = "<group>"; };
 		5B6DAC792224F74A00C382F1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		5B76FF00221E831C00EE89D6 /* AIPlayground.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AIPlayground.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5B76FF00221E831C00EE89D6 /* AIPlayground.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AIPlayground.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B76FF03221E831C00EE89D6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5B76FF05221E831C00EE89D6 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		5B76FF08221E831C00EE89D6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -64,6 +66,7 @@
 				5B86D6E62224CA5800A8CCC7 /* Player.swift */,
 				5B76FF07221E831C00EE89D6 /* Main.storyboard */,
 				5B76FF0F221E831E00EE89D6 /* Info.plist */,
+				0C13499F2246F50A00A51B7D /* MatrixExtensions.swift */,
 			);
 			path = AIPlayground;
 			sourceTree = "<group>";
@@ -93,8 +96,8 @@
 			);
 			dependencies = (
 			);
-			name = "AIPlayground";
-			productName = "AIPlayground";
+			name = AIPlayground;
+			productName = AIPlayground;
 			productReference = 5B76FF00221E831C00EE89D6 /* AIPlayground.app */;
 			productType = "com.apple.product-type.application";
 		};
@@ -110,6 +113,7 @@
 				TargetAttributes = {
 					5B76FEFF221E831C00EE89D6 = {
 						CreatedOnToolsVersion = 10.1;
+						LastSwiftMigration = 1020;
 					};
 				};
 			};
@@ -151,6 +155,7 @@
 			files = (
 				5B76FF06221E831C00EE89D6 /* ViewController.swift in Sources */,
 				5B76FF04221E831C00EE89D6 /* AppDelegate.swift in Sources */,
+				0C1349A02246F50A00A51B7D /* MatrixExtensions.swift in Sources */,
 				5BCBD3BF2224A0AD0002544A /* Game.swift in Sources */,
 				5B86D6E72224CA5800A8CCC7 /* Player.swift in Sources */,
 			);
@@ -307,7 +312,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.romrell4.ai-playground";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -325,7 +330,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.romrell4.ai-playground";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
