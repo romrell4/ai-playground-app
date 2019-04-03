@@ -132,7 +132,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
 	
 	private func selectStrategy(callback: @escaping (Player) -> Void) {
-		let actionSheet = UIAlertController(title: "Select Strategy for Row Player", message: nil, preferredStyle: .actionSheet)
+		let actionSheet = UIAlertController(title: "Select Strategy", message: nil, preferredStyle: .actionSheet)
 		
 		Player.choices.forEach { player in
 			actionSheet.addAction(UIAlertAction(title: player.title, style: .default, handler: { (_) in
