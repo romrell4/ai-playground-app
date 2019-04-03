@@ -11,10 +11,10 @@ import UIKit
 class Game {
 	static var choices: [Game] { return [PrisonersDilemma(), StagHunt(), Chicken(), BattleOfTheSexes()] }
 	
-	var name: String
-	var states: [String]
-	var image: UIImage
-	var rewards: [[(Int, Int)]]
+	let name: String
+	let states: [String]
+	let image: UIImage
+	let rewards: [[(Int, Int)]]
 	
 	init(name: String, states: [String], image: UIImage, rewards: [[(Int, Int)]]) {
 		self.name = name
@@ -29,7 +29,7 @@ class Game {
 		
 		for _ in 0...numRounds {
 			//Allow each player to play, and add to their hisories
-			let (p1Index, p2Index) = (player1.play(player2, self), player2.play(player1, self))
+			let (p1Index, p2Index) = (player1.play(player1, player2, self), player2.play(player2, player1, self))
 			player1.playHistory.append(p1Index)
 			player2.playHistory.append(p2Index)
 			
