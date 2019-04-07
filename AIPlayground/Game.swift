@@ -6,20 +6,16 @@
 //  Copyright © 2019. All rights reserved.
 //
 
-import UIKit
-
 class Game {
 	static var choices: [Game] { return [PrisonersDilemma(), StagHunt(), Chicken(), BattleOfTheSexes()] }
 	
 	let name: String
 	let states: [String]
-	let image: UIImage
 	let rewards: [[(Int, Int)]]
 	
-	init(name: String, states: [String], image: UIImage, rewards: [[(Int, Int)]]) {
+	init(name: String, states: [String], rewards: [[(Int, Int)]]) {
 		self.name = name
 		self.states = states
-		self.image = image
 		self.rewards = rewards
 	}
 	
@@ -46,7 +42,7 @@ class Game {
 
 class PrisonersDilemma: Game {
 	init() {
-		super.init(name: "Prisoner's Dilemma", states: ["Cooperate", "Defect"], image: #imageLiteral(resourceName: "game-prisoners-dilemma"), rewards: [
+		super.init(name: "Prisoner's Dilemma", states: ["Cooperate", "Defect"], rewards: [
 			[(3, 3), (0, 4)],
 			[(4, 0), (1, 1)]
 		])
@@ -55,7 +51,7 @@ class PrisonersDilemma: Game {
 
 class StagHunt: Game {
 	init() {
-		super.init(name: "Stag Hunt", states: ["Stag", "Hare"], image: #imageLiteral(resourceName: "game-stag-hunt"), rewards: [
+		super.init(name: "Stag Hunt", states: ["Stag", "Hare"], rewards: [
 			[(4, 4), (1, 3)],
 			[(3, 1), (2, 2)]
 		])
@@ -64,7 +60,7 @@ class StagHunt: Game {
 
 class Chicken: Game {
 	init() {
-		super.init(name: "Chicken", states: ["Swerve", "Straight"], image: #imageLiteral(resourceName: "game-chicken"), rewards: [
+		super.init(name: "Chicken", states: ["Swerve", "Straight"], rewards: [
 			[(3, 3), (2, 4)],
 			[(4, 2), (1, 1)]
 		])
@@ -73,7 +69,7 @@ class Chicken: Game {
 
 class BattleOfTheSexes: Game {
 	init() {
-		super.init(name: "Battle of the Sexes", states: ["Opera", "Football"], image: #imageLiteral(resourceName: "game-battle-sexes"), rewards: [
+		super.init(name: "Battle of the Sexes", states: ["Opera", "Football"], rewards: [
 			[(3, 2), (0, 0)],
 			[(0, 0), (2, 3)]
 		])

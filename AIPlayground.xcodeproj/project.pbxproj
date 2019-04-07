@@ -41,6 +41,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0CFC8EAD225691A8000699CD /* View */ = {
+			isa = PBXGroup;
+			children = (
+				5B76FF07221E831C00EE89D6 /* Main.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		5B76FEF7221E831C00EE89D6 = {
 			isa = PBXGroup;
 			children = (
@@ -60,11 +68,11 @@
 		5B76FF02221E831C00EE89D6 /* AIPlayground */ = {
 			isa = PBXGroup;
 			children = (
+				0CFC8EAD225691A8000699CD /* View */,
 				5BF66F72221F1E2600648203 /* Supporting Files */,
 				5B76FF05221E831C00EE89D6 /* ViewController.swift */,
 				5BCBD3BE2224A0AD0002544A /* Game.swift */,
 				5B86D6E62224CA5800A8CCC7 /* Player.swift */,
-				5B76FF07221E831C00EE89D6 /* Main.storyboard */,
 				5B76FF0F221E831E00EE89D6 /* Info.plist */,
 				0C13499F2246F50A00A51B7D /* MatrixExtensions.swift */,
 			);

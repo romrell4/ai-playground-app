@@ -20,7 +20,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
 			colStrategyBtn.setTitle(colPlayer.title, for: .normal)
 		}
 	}
-	private var game: Game = PrisonersDilemma() {
+	private var game: Game! {
         didSet {
 			resetGame()
         }
@@ -33,6 +33,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
 		
 		rowPlayer = Random()
 		colPlayer = Random()
+		game = PrisonersDilemma()
 		updateUI()
     }
 	
@@ -48,6 +49,23 @@ class ViewController: UIViewController, UITextFieldDelegate {
 	@IBAction func resetGame(_ sender: Any? = nil) {
 		rowPlayer.reset()
 		colPlayer.reset()
+		
+		//Update the game's states
+		for (state, (rowTitle, colTitle)) in zip(game.states, zip(rowStateTitles, colStateTitles)) {
+			rowTitle.text = state.uppercased()
+			colTitle.text = state.uppercased()
+		}
+		
+		//Update the reward values
+		topLeftRowScoreLabel.text = "\(game.rewards[0][0].0)"
+		topLeftColScoreLabel.text = "\(game.rewards[0][0].1)"
+		topRightRowScoreLabel.text = "\(game.rewards[0][1].0)"
+		topRightColScoreLabel.text = "\(game.rewards[0][1].1)"
+		bottomLeftRowScoreLabel.text = "\(game.rewards[1][0].0)"
+		bottomLeftColScoreLabel.text = "\(game.rewards[1][0].1)"
+		bottomRightRowScoreLabel.text = "\(game.rewards[1][1].0)"
+		bottomRightColScoreLabel.text = "\(game.rewards[1][1].1)"
+		
         updateUI()
     }
     
@@ -65,8 +83,25 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     //Image ============================================================
     
-    @IBOutlet weak var gameImg: UIImageView!
-    
+
+	@IBOutlet weak var gameGridView: UIView! {
+		didSet {
+			gameGridView.layer.borderWidth = 1
+			gameGridView.layer.borderColor = UIColor.gray.cgColor
+			gameGridView.layer.cornerRadius = 4
+		}
+	}
+	@IBOutlet private var rowStateTitles: [UILabel]!
+	@IBOutlet private var colStateTitles: [UILabel]!
+	@IBOutlet private weak var topLeftRowScoreLabel: UILabel!
+	@IBOutlet private weak var topLeftColScoreLabel: UILabel!
+	@IBOutlet private weak var topRightRowScoreLabel: UILabel!
+	@IBOutlet private weak var topRightColScoreLabel: UILabel!
+	@IBOutlet private weak var bottomLeftRowScoreLabel: UILabel!
+	@IBOutlet private weak var bottomLeftColScoreLabel: UILabel!
+	@IBOutlet private weak var bottomRightRowScoreLabel: UILabel!
+	@IBOutlet private weak var bottomRightColScoreLabel: UILabel!
+	
     //Bottom Bib ============================================================
     
     @IBOutlet weak var numRoundsTextField: UITextField!
@@ -149,7 +184,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
 	
     private func updateUI() {
 		title = game.name
-		gameImg.image = game.image
 		
         rowPlayerTotalScore.text = "TOTAL: \(rowPlayer.score)"
         colPlayerTotalScore.text = "TOTAL: \(colPlayer.score)"
