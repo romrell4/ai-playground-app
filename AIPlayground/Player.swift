@@ -9,7 +9,7 @@
 import Foundation
 
 class Player {
-	static var choices: [Player] { return [Human(), Random(), TitForTat(), FictitiousPlay(), Godfather(), Bully()] }
+	static var choices: [Player] { return [/*Human(), */Random(), TitForTat(), FictitiousPlay(), Godfather(), Bully()] }
 	
 	let title: String
 	var score = 0
