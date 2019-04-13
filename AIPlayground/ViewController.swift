@@ -53,6 +53,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
 	@IBAction func resetGame(_ sender: Any? = nil) {
 		rowPlayer.reset()
 		colPlayer.reset()
+		game.gameTimer?.invalidate()
 		
 		//Update the game's states
 		for (state, (rowTitle, colTitle)) in zip(game.states, zip(rowStateTitles, colStateTitles)) {
@@ -129,10 +130,9 @@ class ViewController: UIViewController, UITextFieldDelegate {
             numberOfRounds = num
         }
         
-		game.play(numRounds: numberOfRounds, player1: rowPlayer, player2: colPlayer) {
-			updateUI()
+		game.play(numRounds: numberOfRounds, player1: rowPlayer, player2: colPlayer, delay: fast ? 0 : 0.25) {
+			self.updateUI(round: $0)
 		}
-		updateUI()
     }
     
     //Player Info ============================================================
@@ -178,13 +178,13 @@ class ViewController: UIViewController, UITextFieldDelegate {
 	
     //Update UI ============================================================
 	
-    private func updateUI() {
+	private func updateUI(round: Int = 0) {
 		title = game.name
 		
         rowPlayerTotalScore.text = "TOTAL: \(rowPlayer.score)"
         colPlayerTotalScore.text = "TOTAL: \(colPlayer.score)"
 		
-		rowPlayerAvgScore.text = String(format: "%.3f", Double(rowPlayer.score) / Double(numberOfRounds))
-        colPlayerAvgScore.text = String(format: "%.3f", Double(colPlayer.score) / Double(numberOfRounds))
+		rowPlayerAvgScore.text = String(format: "%.3f", round == 0 ? 0 : Double(rowPlayer.score) / Double(round))
+		colPlayerAvgScore.text = String(format: "%.3f", round == 0 ? 0 : Double(colPlayer.score) / Double(round))
     }
 }

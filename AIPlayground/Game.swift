@@ -5,6 +5,7 @@
 //  Created by Eric Romrell.
 //  Copyright © 2019. All rights reserved.
 //
+import Foundation
 
 class Game {
 	static var choices: [Game] { return [PrisonersDilemma(), StagHunt(), Chicken(), BattleOfTheSexes()] }
@@ -13,17 +14,21 @@ class Game {
 	let states: [String]
 	let rewards: [[(Int, Int)]]
 	
+	var gameTimer: Timer?
+	
 	init(name: String, states: [String], rewards: [[(Int, Int)]]) {
 		self.name = name
 		self.states = states
 		self.rewards = rewards
 	}
 	
-	func play(numRounds: Int, player1: Player, player2: Player, onFinishedRound: () -> Void = {}) {
+	func play(numRounds: Int, player1: Player, player2: Player, delay: TimeInterval, onFinishedRound: @escaping (Int) -> Void) {
 		//Reset the scores and play history
 		[player1, player2].forEach { $0.reset() }
 		
-		for _ in 0...numRounds {
+		var playedRounds = 0
+		
+		gameTimer = Timer.scheduledTimer(withTimeInterval: delay, repeats: true) { (_) in
 			//Allow each player to play, and add to their hisories
 			let (p1Index, p2Index) = (player1.play(player1, player2, self), player2.play(player2, player1, self))
 			player1.playHistory.append(p1Index)
@@ -34,8 +39,14 @@ class Game {
 			player1.score += reward.0
 			player2.score += reward.1
 			
+			//Check if we're finished
+			playedRounds += 1
+			if playedRounds >= numRounds {
+				self.gameTimer?.invalidate()
+			}
+			
 			//Allow the caller to exeucte some code when the round finishes
-			onFinishedRound()
+			onFinishedRound(playedRounds)
 		}
 	}
 }
