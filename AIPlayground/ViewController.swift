@@ -25,7 +25,11 @@ class ViewController: UIViewController, UITextFieldDelegate {
 			resetGame()
         }
     }
-    private var fast = true
+	private var fast = true {
+		didSet {
+			speedButton.setTitle("Speed: \(fast ? "fast" : "slow")", for: .normal)
+		}
+	}
     private var numberOfRounds = 1000
     
     override func viewDidLoad() {
@@ -69,7 +73,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         updateUI()
     }
     
-    @IBAction func changeGameBtn(_ sender: Any) {
+    @IBAction func changeGameTapped(_ sender: Any) {
         let actionSheet = UIAlertController(title: "Select Matrix Game", message: nil, preferredStyle: .actionSheet)
 		Game.choices.forEach { game in
 			actionSheet.addAction(UIAlertAction(title: game.name, style: .default) { (_) in
@@ -106,27 +110,19 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var numRoundsTextField: UITextField!
     
-    @IBAction func btnSpeedAction(_ sender: UIButton) {
-        if let buttonTitle = sender.title(for: .normal) {
-            if buttonTitle == "Speed: fast" {
-                btnSpeedOutlet.setTitle("Speed: slow", for: .normal)
-                fast = false
-            } else {
-                btnSpeedOutlet.setTitle("Speed: fast", for: .normal)
-                fast = true
-            }
-        }
+    @IBAction func speedButtonTapped(_ sender: UIButton) {
+		fast = !fast
     }
     
-    @IBOutlet weak var btnSpeedOutlet: UIButton!
+    @IBOutlet weak var speedButton: UIButton!
     
-    @IBOutlet weak var btnStartOutlet: UIButton! {
+    @IBOutlet weak var startButton: UIButton! {
         didSet {
-            btnStartOutlet.layer.cornerRadius = 4
+            startButton.layer.cornerRadius = 4
         }
     }
     
-    @IBAction func btnStart(_ sender: Any) {
+    @IBAction func startTapped(_ sender: Any) {
         view.endEditing(true)
         
         if let text = numRoundsTextField.text, let num = Int(text) {
