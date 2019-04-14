@@ -8,6 +8,8 @@
 
 import UIKit
 
+private let SLOW_PLAY_DELAY = 0.25
+
 class ViewController: UIViewController, UITextFieldDelegate {
 
 	private var rowPlayer: Player! {
@@ -25,8 +27,11 @@ class ViewController: UIViewController, UITextFieldDelegate {
 			resetGame()
         }
     }
-    private var fast = true
-    private var numberOfRounds = 1000
+	private var fast = true {
+		didSet {
+			speedButton.setTitle("Speed: \(fast ? "fast" : "slow")", for: .normal)
+		}
+	}
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,6 +54,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
 	@IBAction func resetGame(_ sender: Any? = nil) {
 		rowPlayer.reset()
 		colPlayer.reset()
+		game.gameTimer?.invalidate()
 		
 		//Update the game's states
 		for (state, (rowTitle, colTitle)) in zip(game.states, zip(rowStateTitles, colStateTitles)) {
@@ -69,7 +75,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         updateUI()
     }
     
-    @IBAction func changeGameBtn(_ sender: Any) {
+    @IBAction func changeGameTapped(_ sender: Any) {
         let actionSheet = UIAlertController(title: "Select Matrix Game", message: nil, preferredStyle: .actionSheet)
 		Game.choices.forEach { game in
 			actionSheet.addAction(UIAlertAction(title: game.name, style: .default) { (_) in
@@ -84,7 +90,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     //Image ============================================================
     
 
-	@IBOutlet weak var gameGridView: UIView! {
+	@IBOutlet private weak var gameGridView: UIView! {
 		didSet {
 			gameGridView.layer.borderWidth = 1
 			gameGridView.layer.borderColor = UIColor.gray.cgColor
@@ -104,52 +110,45 @@ class ViewController: UIViewController, UITextFieldDelegate {
 	
     //Bottom Bib ============================================================
     
-    @IBOutlet weak var numRoundsTextField: UITextField!
+    @IBOutlet private weak var numRoundsTextField: UITextField!
     
-    @IBAction func btnSpeedAction(_ sender: UIButton) {
-        if let buttonTitle = sender.title(for: .normal) {
-            if buttonTitle == "Speed: fast" {
-                btnSpeedOutlet.setTitle("Speed: slow", for: .normal)
-                fast = false
-            } else {
-                btnSpeedOutlet.setTitle("Speed: fast", for: .normal)
-                fast = true
-            }
-        }
+    @IBAction func speedButtonTapped(_ sender: UIButton) {
+		fast = !fast
     }
     
-    @IBOutlet weak var btnSpeedOutlet: UIButton!
+    @IBOutlet weak var speedButton: UIButton!
     
-    @IBOutlet weak var btnStartOutlet: UIButton! {
+    @IBOutlet weak var startButton: UIButton! {
         didSet {
-            btnStartOutlet.layer.cornerRadius = 4
+            startButton.layer.cornerRadius = 4
         }
     }
     
-    @IBAction func btnStart(_ sender: Any) {
+    @IBAction func startTapped(_ sender: Any) {
         view.endEditing(true)
-        
+		
+		//Default
+		var numberOfRounds = 1000
         if let text = numRoundsTextField.text, let num = Int(text) {
             numberOfRounds = num
         }
         
-		game.play(numRounds: numberOfRounds, player1: rowPlayer, player2: colPlayer) {
-			updateUI()
+		game.play(numRounds: numberOfRounds, player1: rowPlayer, player2: colPlayer, delay: fast ? 0 : SLOW_PLAY_DELAY) {
+			self.updateUI(round: $0)
 		}
-		updateUI()
     }
     
     //Player Info ============================================================
     
-    @IBOutlet weak var rowPlayerAvgScore: UILabel!
-    @IBOutlet weak var colPlayerAvgScore: UILabel!
+    @IBOutlet private weak var rowPlayerAvgScore: UILabel!
+    @IBOutlet private weak var colPlayerAvgScore: UILabel!
     
-    @IBOutlet weak var rowPlayerTotalScore: UILabel!
-    @IBOutlet weak var colPlayerTotalScore: UILabel!
+    @IBOutlet private weak var rowPlayerTotalScore: UILabel!
+    @IBOutlet private weak var colPlayerTotalScore: UILabel!
     
     //Strategy btn outlets
-	@IBOutlet weak var rowStrategyBtn: UIButton!
-    @IBOutlet weak var colStrategyBtn: UIButton!
+	@IBOutlet private weak var rowStrategyBtn: UIButton!
+    @IBOutlet private weak var colStrategyBtn: UIButton!
     
     //Strategy btn actions
     @IBAction func rowPlayerStrategyBtn(_ sender: UIButton) {
@@ -182,13 +181,13 @@ class ViewController: UIViewController, UITextFieldDelegate {
 	
     //Update UI ============================================================
 	
-    private func updateUI() {
+	private func updateUI(round: Int = 0) {
 		title = game.name
 		
         rowPlayerTotalScore.text = "TOTAL: \(rowPlayer.score)"
         colPlayerTotalScore.text = "TOTAL: \(colPlayer.score)"
 		
-		rowPlayerAvgScore.text = String(format: "%.3f", Double(rowPlayer.score) / Double(numberOfRounds))
-        colPlayerAvgScore.text = String(format: "%.3f", Double(colPlayer.score) / Double(numberOfRounds))
+		rowPlayerAvgScore.text = String(format: "%.3f", round == 0 ? 0 : Double(rowPlayer.score) / Double(round))
+		colPlayerAvgScore.text = String(format: "%.3f", round == 0 ? 0 : Double(colPlayer.score) / Double(round))
     }
 }
