@@ -8,6 +8,8 @@
 
 import UIKit
 
+private let SLOW_PLAY_DELAY = 0.25
+
 class ViewController: UIViewController, UITextFieldDelegate {
 
 	private var rowPlayer: Player! {
@@ -30,7 +32,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
 			speedButton.setTitle("Speed: \(fast ? "fast" : "slow")", for: .normal)
 		}
 	}
-    private var numberOfRounds = 1000
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -89,7 +90,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     //Image ============================================================
     
 
-	@IBOutlet weak var gameGridView: UIView! {
+	@IBOutlet private weak var gameGridView: UIView! {
 		didSet {
 			gameGridView.layer.borderWidth = 1
 			gameGridView.layer.borderColor = UIColor.gray.cgColor
@@ -109,7 +110,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
 	
     //Bottom Bib ============================================================
     
-    @IBOutlet weak var numRoundsTextField: UITextField!
+    @IBOutlet private weak var numRoundsTextField: UITextField!
     
     @IBAction func speedButtonTapped(_ sender: UIButton) {
 		fast = !fast
@@ -125,27 +126,29 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     @IBAction func startTapped(_ sender: Any) {
         view.endEditing(true)
-        
+		
+		//Default
+		var numberOfRounds = 1000
         if let text = numRoundsTextField.text, let num = Int(text) {
             numberOfRounds = num
         }
         
-		game.play(numRounds: numberOfRounds, player1: rowPlayer, player2: colPlayer, delay: fast ? 0 : 0.25) {
+		game.play(numRounds: numberOfRounds, player1: rowPlayer, player2: colPlayer, delay: fast ? 0 : SLOW_PLAY_DELAY) {
 			self.updateUI(round: $0)
 		}
     }
     
     //Player Info ============================================================
     
-    @IBOutlet weak var rowPlayerAvgScore: UILabel!
-    @IBOutlet weak var colPlayerAvgScore: UILabel!
+    @IBOutlet private weak var rowPlayerAvgScore: UILabel!
+    @IBOutlet private weak var colPlayerAvgScore: UILabel!
     
-    @IBOutlet weak var rowPlayerTotalScore: UILabel!
-    @IBOutlet weak var colPlayerTotalScore: UILabel!
+    @IBOutlet private weak var rowPlayerTotalScore: UILabel!
+    @IBOutlet private weak var colPlayerTotalScore: UILabel!
     
     //Strategy btn outlets
-	@IBOutlet weak var rowStrategyBtn: UIButton!
-    @IBOutlet weak var colStrategyBtn: UIButton!
+	@IBOutlet private weak var rowStrategyBtn: UIButton!
+    @IBOutlet private weak var colStrategyBtn: UIButton!
     
     //Strategy btn actions
     @IBAction func rowPlayerStrategyBtn(_ sender: UIButton) {
