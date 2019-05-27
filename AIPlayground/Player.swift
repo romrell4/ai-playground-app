@@ -38,7 +38,7 @@ class Human: Player {
 
 class Random: Player {
 	init() {
-		super.init(title: "Random") { (me, opponent, game) -> Int in
+        super.init(title: "Random") { (me, opponent, game) -> Int in
 			return Int.random(in: 0..<game.states.count)
 		}
 	}
@@ -55,7 +55,7 @@ class TitForTat: Player {
 class FictitiousPlay: Player {
 	init() {
 		super.init(title: "Fictitious Play") { (me, opponent, game) -> Int in
-			let myRewards = game.rewards.map { $0.map { $0.0 } }
+			let myRewards = game.rewards.map { $0.map { $0[0] } }
 			//Only look at the last chunk of plays (for performance reasons)
 			let distribution = opponent.playHistory.suffix(100).distribution(size: game.states.count)
 			return myRewards.dot(vector: distribution).argmax()

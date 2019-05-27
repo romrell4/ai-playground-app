@@ -11,15 +11,17 @@ import UIKit
 private let SLOW_PLAY_DELAY = 0.25
 
 class ViewController: UIViewController, UITextFieldDelegate {
-
+    
+    //Mark: - Properties
+    
 	private var rowPlayer: Player! {
 		didSet {
-			rowStrategyBtn.setTitle(rowPlayer.title, for: .normal)
+            rowStrategyBtn.setTitle("Strategy: \(rowPlayer.title)", for: .normal)
 		}
 	}
 	private var colPlayer: Player! {
 		didSet {
-			colStrategyBtn.setTitle(colPlayer.title, for: .normal)
+			colStrategyBtn.setTitle("Strategy: \(colPlayer.title)", for: .normal)
 		}
 	}
 	private var game: Game! {
@@ -33,24 +35,25 @@ class ViewController: UIViewController, UITextFieldDelegate {
 		}
 	}
     
+    private var numberOfRounds = 1000
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 		
 		rowPlayer = Random()
 		colPlayer = Random()
+        
 		game = PrisonersDilemma()
 		updateUI()
+        
+    navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+        navigationController?.navigationBar.shadowImage = UIImage()
+        
     }
-	
-	//TextFieldDelegate ===================================
-	
-	func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-		textField.resignFirstResponder()
-		return true
-	}
-	
+		
     //Nav bar ============================================================
  
+    
 	@IBAction func resetGame(_ sender: Any? = nil) {
 		rowPlayer.reset()
 		colPlayer.reset()
@@ -63,14 +66,14 @@ class ViewController: UIViewController, UITextFieldDelegate {
 		}
 		
 		//Update the reward values
-		topLeftRowScoreLabel.text = "\(game.rewards[0][0].0)"
-		topLeftColScoreLabel.text = "\(game.rewards[0][0].1)"
-		topRightRowScoreLabel.text = "\(game.rewards[0][1].0)"
-		topRightColScoreLabel.text = "\(game.rewards[0][1].1)"
-		bottomLeftRowScoreLabel.text = "\(game.rewards[1][0].0)"
-		bottomLeftColScoreLabel.text = "\(game.rewards[1][0].1)"
-		bottomRightRowScoreLabel.text = "\(game.rewards[1][1].0)"
-		bottomRightColScoreLabel.text = "\(game.rewards[1][1].1)"
+		topLeftRowScoreLabel.text = "\(game.rewards[0][0][0])"
+		topLeftColScoreLabel.text = "\(game.rewards[0][0][1])"
+		topRightRowScoreLabel.text = "\(game.rewards[0][1][0])"
+		topRightColScoreLabel.text = "\(game.rewards[0][1][1])"
+		bottomLeftRowScoreLabel.text = "\(game.rewards[1][0][0])"
+		bottomLeftColScoreLabel.text = "\(game.rewards[1][0][1])"
+		bottomRightRowScoreLabel.text = "\(game.rewards[1][1][0])"
+		bottomRightColScoreLabel.text = "\(game.rewards[1][1][1])"
 		
         updateUI()
     }
@@ -87,30 +90,53 @@ class ViewController: UIViewController, UITextFieldDelegate {
         present(actionSheet, animated: true)
     }
     
-    //Image ============================================================
+    //Game Info ============================================================
     
-
+    @IBOutlet private weak var fullGameBox: UIView! {
+        didSet {
+            fullGameBox.layer.borderWidth = 1
+            fullGameBox.layer.borderColor = #colorLiteral(red: 0.9333333333, green: 0.9333333333, blue: 0.9333333333, alpha: 1)
+            fullGameBox.layer.cornerRadius = 16
+            fullGameBox.backgroundColor  = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        }
+    }
+    
 	@IBOutlet private weak var gameGridView: UIView! {
 		didSet {
 			gameGridView.layer.borderWidth = 1
-			gameGridView.layer.borderColor = UIColor.gray.cgColor
-			gameGridView.layer.cornerRadius = 4
+			gameGridView.layer.borderColor = #colorLiteral(red: 0.8, green: 0.8, blue: 0.8, alpha: 1)
+			gameGridView.layer.cornerRadius = 8
 		}
 	}
 	@IBOutlet private var rowStateTitles: [UILabel]!
 	@IBOutlet private var colStateTitles: [UILabel]!
+    
 	@IBOutlet private weak var topLeftRowScoreLabel: UILabel!
 	@IBOutlet private weak var topLeftColScoreLabel: UILabel!
+    
 	@IBOutlet private weak var topRightRowScoreLabel: UILabel!
 	@IBOutlet private weak var topRightColScoreLabel: UILabel!
+    
 	@IBOutlet private weak var bottomLeftRowScoreLabel: UILabel!
 	@IBOutlet private weak var bottomLeftColScoreLabel: UILabel!
+    
 	@IBOutlet private weak var bottomRightRowScoreLabel: UILabel!
 	@IBOutlet private weak var bottomRightColScoreLabel: UILabel!
-	
+    
+    @IBOutlet weak var topLeftNashLabel: UILabel!
+    @IBOutlet weak var topRightNashLabel: UILabel!
+    @IBOutlet weak var bottomLeftNashLabel: UILabel!
+    @IBOutlet weak var bottomRightNashLabel: UILabel!
+    
+    @IBOutlet var nashLabels: [UILabel]!
+    
     //Bottom Bib ============================================================
     
-    @IBOutlet private weak var numRoundsTextField: UITextField!
+    @IBOutlet weak var roundsBtn: UIButton!
+    
+    @IBAction func roundsBtn(_ sender: Any) {
+        selectRounds()
+    }
     
     @IBAction func speedButtonTapped(_ sender: UIButton) {
 		fast = !fast
@@ -128,14 +154,46 @@ class ViewController: UIViewController, UITextFieldDelegate {
         view.endEditing(true)
 		
 		//Default
-		var numberOfRounds = 1000
-        if let text = numRoundsTextField.text, let num = Int(text) {
-            numberOfRounds = num
-        }
         
 		game.play(numRounds: numberOfRounds, player1: rowPlayer, player2: colPlayer, delay: fast ? 0 : SLOW_PLAY_DELAY) {
 			self.updateUI(round: $0)
 		}
+    }
+    
+    private func selectRounds() {
+        let actionSheet = UIAlertController(title: "Select Rounds", message: nil, preferredStyle: .actionSheet)
+        
+        let ten = UIAlertAction(title: "10", style: .default) { action in
+            self.changeRounds(to: 10)
+        }
+        
+        let hundred = UIAlertAction(title: "100", style: .default) { action in
+            self.changeRounds(to: 100)
+        }
+        
+        let thousand = UIAlertAction(title: "1,000", style: .default) { action in
+            self.changeRounds(to: 1000)
+        }
+        
+        let tenThousand = UIAlertAction(title: "10,000", style: .default) { action in
+            self.changeRounds(to: 10000)
+        }
+        
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        actionSheet.addAction(ten)
+        actionSheet.addAction(hundred)
+        actionSheet.addAction(thousand)
+        actionSheet.addAction(tenThousand)
+        actionSheet.addAction(cancel)
+        
+        present(actionSheet, animated: true)
+    }
+    
+    private func changeRounds(to number: Int) {
+        numberOfRounds = number
+        roundsBtn.titleLabel?.text = "Rounds: \(number)"
+        
     }
     
     //Player Info ============================================================
@@ -147,21 +205,22 @@ class ViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet private weak var colPlayerTotalScore: UILabel!
     
     //Strategy btn outlets
-	@IBOutlet private weak var rowStrategyBtn: UIButton!
+    @IBOutlet private weak var rowStrategyBtn: UIButton!
+    
     @IBOutlet private weak var colStrategyBtn: UIButton!
     
     //Strategy btn actions
     @IBAction func rowPlayerStrategyBtn(_ sender: UIButton) {
 		selectStrategy { player in
 			self.rowPlayer = player
-			sender.setTitle(player.title, for: .normal)
+			sender.setTitle("Strategy: \(player.title)", for: .normal)
 		}
     }
     
     @IBAction func colPlayerStrategyBtn(_ sender: UIButton) {
 		selectStrategy { player in
 			self.colPlayer = player
-			sender.setTitle(player.title, for: .normal)
+			sender.setTitle("Strategy: \(player.title)", for: .normal)
 		}
     }
 	
@@ -178,7 +237,25 @@ class ViewController: UIViewController, UITextFieldDelegate {
 		
 		present(actionSheet, animated: true)
 	}
-	
+    
+    @IBOutlet weak var viewRowPlayer: UIView! {
+        didSet {
+            viewRowPlayer.layer.borderWidth = 1
+            viewRowPlayer.layer.borderColor = #colorLiteral(red: 0.9333333333, green: 0.9333333333, blue: 0.9333333333, alpha: 1)
+            viewRowPlayer.layer.cornerRadius = 16
+            viewRowPlayer.backgroundColor  = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        }
+    }
+    
+    @IBOutlet weak var viewColPlayer: UIView! {
+        didSet {
+            viewColPlayer.layer.borderWidth = 1
+            viewColPlayer.layer.borderColor = #colorLiteral(red: 0.9333333333, green: 0.9333333333, blue: 0.9333333333, alpha: 1)
+            viewColPlayer.layer.cornerRadius = 16
+            viewColPlayer.backgroundColor  = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        }
+    }
+    
     //Update UI ============================================================
 	
 	private func updateUI(round: Int = 0) {
@@ -189,5 +266,13 @@ class ViewController: UIViewController, UITextFieldDelegate {
 		
 		rowPlayerAvgScore.text = String(format: "%.3f", round == 0 ? 0 : Double(rowPlayer.score) / Double(round))
 		colPlayerAvgScore.text = String(format: "%.3f", round == 0 ? 0 : Double(colPlayer.score) / Double(round))
+        
+        for n in game.nashEquilibrium.indices {
+            if game.nashEquilibrium[n] {
+                nashLabels[n].text = "NASH E."
+            } else {
+                nashLabels[n].text = " "
+            }
+        }
     }
 }
