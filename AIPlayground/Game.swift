@@ -17,7 +17,7 @@ class Game {
 	
 	var gameTimer: Timer?
 	
-	init(name: String, states: [String], rewards: [[Array<Int>]]) {
+	init(name: String, states: [String], rewards: [[[Int]]]) {
 		self.name = name
 		self.states = states
 		self.rewards = rewards
