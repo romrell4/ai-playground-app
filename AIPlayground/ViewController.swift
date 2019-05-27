@@ -63,14 +63,14 @@ class ViewController: UIViewController, UITextFieldDelegate {
 		}
 		
 		//Update the reward values
-		topLeftRowScoreLabel.text = "\(game.rewards[0][0].0)"
-		topLeftColScoreLabel.text = "\(game.rewards[0][0].1)"
-		topRightRowScoreLabel.text = "\(game.rewards[0][1].0)"
-		topRightColScoreLabel.text = "\(game.rewards[0][1].1)"
-		bottomLeftRowScoreLabel.text = "\(game.rewards[1][0].0)"
-		bottomLeftColScoreLabel.text = "\(game.rewards[1][0].1)"
-		bottomRightRowScoreLabel.text = "\(game.rewards[1][1].0)"
-		bottomRightColScoreLabel.text = "\(game.rewards[1][1].1)"
+		topLeftRowScoreLabel.text = "\(game.rewards[0][0][0])"
+		topLeftColScoreLabel.text = "\(game.rewards[0][0][1])"
+		topRightRowScoreLabel.text = "\(game.rewards[0][1][0])"
+		topRightColScoreLabel.text = "\(game.rewards[0][1][1])"
+		bottomLeftRowScoreLabel.text = "\(game.rewards[1][0][0])"
+		bottomLeftColScoreLabel.text = "\(game.rewards[1][0][1])"
+		bottomRightRowScoreLabel.text = "\(game.rewards[1][1][0])"
+		bottomRightColScoreLabel.text = "\(game.rewards[1][1][1])"
 		
         updateUI()
     }
