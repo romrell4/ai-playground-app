@@ -8,7 +8,7 @@
 import Foundation
 
 class Game {
-	static var choices: [Game] { return [PrisonersDilemma(), StagHunt(), Chicken(), BattleOfTheSexes()] }
+	static var choices: [Game] { return [PrisonersDilemma(), StagHunt(), Chicken(), BattleOfTheSexes(), HighLow()] }
 	
 	let name: String
 	let states: [String]
@@ -83,6 +83,15 @@ class BattleOfTheSexes: Game {
 		super.init(name: "Battle of the Sexes", states: ["Opera", "Football"], rewards: [
 			[(3, 2), (0, 0)],
 			[(0, 0), (2, 3)]
+		])
+	}
+}
+
+class HighLow: Game {
+	init() {
+		super.init(name: "High Low", states: ["High", "Low"], rewards: [
+			[(2, 2), (0, 0)],
+			[(0, 0), (1, 1)]
 		])
 	}
 }
