@@ -12,11 +12,11 @@ class Game {
 	
 	let name: String
 	let states: [String]
-	let rewards: [[(Int, Int)]]
+	let rewards: [[[Int]]]
 	
 	var gameTimer: Timer?
 	
-	init(name: String, states: [String], rewards: [[(Int, Int)]]) {
+	init(name: String, states: [String], rewards: [[[Int]]]) {
 		self.name = name
 		self.states = states
 		self.rewards = rewards
@@ -36,8 +36,8 @@ class Game {
 			
 			//Determine their rewards
 			let reward = self.rewards[p1Index][p2Index]
-			player1.score += reward.0
-			player2.score += reward.1
+			player1.score += reward[0]
+			player2.score += reward[1]
 			
 			//Check if we're finished
 			playedRounds += 1
@@ -54,8 +54,8 @@ class Game {
 class PrisonersDilemma: Game {
 	init() {
 		super.init(name: "Prisoner's Dilemma", states: ["Cooperate", "Defect"], rewards: [
-			[(3, 3), (0, 4)],
-			[(4, 0), (1, 1)]
+			[[3, 3], [0, 4]],
+			[[4, 0], [1, 1]]
 		])
 	}
 }
@@ -63,8 +63,8 @@ class PrisonersDilemma: Game {
 class StagHunt: Game {
 	init() {
 		super.init(name: "Stag Hunt", states: ["Stag", "Hare"], rewards: [
-			[(4, 4), (1, 3)],
-			[(3, 1), (2, 2)]
+			[[4, 4], [1, 3]],
+			[[3, 1], [2, 2]]
 		])
 	}
 }
@@ -72,8 +72,8 @@ class StagHunt: Game {
 class Chicken: Game {
 	init() {
 		super.init(name: "Chicken", states: ["Swerve", "Straight"], rewards: [
-			[(3, 3), (2, 4)],
-			[(4, 2), (1, 1)]
+			[[3, 3], [2, 4]],
+			[[4, 2], [1, 1]]
 		])
 	}
 }
@@ -81,8 +81,8 @@ class Chicken: Game {
 class BattleOfTheSexes: Game {
 	init() {
 		super.init(name: "Battle of the Sexes", states: ["Opera", "Football"], rewards: [
-			[(3, 2), (0, 0)],
-			[(0, 0), (2, 3)]
+			[[3, 2], [0, 0]],
+			[[0, 0], [2, 3]]
 		])
 	}
 }
@@ -90,8 +90,8 @@ class BattleOfTheSexes: Game {
 class HighLow: Game {
 	init() {
 		super.init(name: "High Low", states: ["High", "Low"], rewards: [
-			[(2, 2), (0, 0)],
-			[(0, 0), (1, 1)]
+			[[2, 2], [0, 0]],
+			[[0, 0], [1, 1]]
 		])
 	}
 }
